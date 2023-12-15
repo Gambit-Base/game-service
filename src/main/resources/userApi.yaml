@@ -1,0 +1,131 @@
+openapi: "3.0.0"
+info:
+  description: "User API"
+  version: "0.0.1"
+  title: "com.gambit.gameservice"
+paths:
+  /user:
+    post:
+      summary: Create new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDTO"
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+    put:
+      summary: Update user
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDTO"
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+    delete:
+      summary: Delete user
+      operationId: deleteUser
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Successful operation"
+    get:
+      summary: Authorize user
+      operationId: authorizeUser
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+  /user/avatar:
+    post:
+      summary: Upload avatar
+      operationId: uploadAvatar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Base64AvatarDTO"
+      responses:
+        200:
+          description: "Successful operation"
+
+  /user/list:
+    get:
+      summary: Get user list
+      operationId: getUserList
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserListDTO"
+components:
+  schemas:
+    Base64AvatarDTO:
+      type: object
+      properties:
+        base64:
+          type: string
+    UserDTO:
+      type: object
+      required:
+        - id
+        - email
+        - userName
+        - passwordHash
+      properties:
+        id:
+          type: string
+          format: uuid
+        userName:
+          type: string
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        avatarBase64:
+          type: string
+        passwordHash:
+          type: string
+        rating:
+          type: integer
+        balance:
+          type: number
+    UserListDTO:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserDTO"
